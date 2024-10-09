@@ -1,0 +1,5 @@
+1. Want to use hydra for configuration management.
+2. Want to use python's logging to manage logging.
+3. FedRunner will orchestrate everything.
+4. ClientTrainer -> Responsible for training the Clients
+5. ServerAggregator -> responsible for distributing the global model to Clients and aggregate the updated models.
