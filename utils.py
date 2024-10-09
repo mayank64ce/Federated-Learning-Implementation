@@ -1,5 +1,6 @@
 import torch
 from torch.utils.data import DataLoader, TensorDataset
+from models import model_factory
 
 def get_loader(dataset, batch_size, train=True):
     return DataLoader(dataset, batch_size=batch_size, shuffle=train)
@@ -30,6 +31,12 @@ def get_dummy_dataset(num_samples=100, num_features=28*28, num_classes=10):
     train_dataset = TensorDataset(x, y)
     test_dataset = TensorDataset(x, y)
     return train_dataset, test_dataset
+
+def get_model(args):
+    if args.model in model_factory:
+        return model_factory[args.model]()
+    else:
+        raise ValueError("Invalid model name")
 
 # Args class to hold model parameters and configuration options
 class Args:

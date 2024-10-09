@@ -1,10 +1,10 @@
 import torch
 from collections import OrderedDict
-from models import model_factory
+from utils import get_model
 
 class Server:
     def __init__(self, args):
-        self.model = model_factory[args.model]()
+        self.model = get_model(args)
 
     def get_global_model(self):
         return self.model.state_dict()

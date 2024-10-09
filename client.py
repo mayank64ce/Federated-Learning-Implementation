@@ -1,11 +1,10 @@
 import torch
-from utils import get_loader, get_optimizer, get_loss_fn
-from models import model_factory
+from utils import get_loader, get_optimizer, get_loss_fn, get_model
 
 class Client:
     def __init__(self, train_dataset, test_dataset, args):
         # Initialize the client with the specified model and training parameters
-        self.model = model_factory[args.model]()
+        self.model = get_model(args)
         self.train_epochs = args.train_epochs
         self.train_loader = get_loader(train_dataset, args.batch_size)
         self.test_loader = get_loader(test_dataset, args.batch_size)
