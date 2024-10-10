@@ -2,14 +2,16 @@ import torch
 from utils import get_loader, get_optimizer, get_loss_fn, get_model
 
 class Client:
-    def __init__(self, train_dataset, test_dataset, args):
+    def __init__(self, train_dataset, test_dataset, args, id=None):
         # Initialize the client with the specified model and training parameters
+        self.id = id
         self.model = get_model(args)
         self.train_epochs = args.train_epochs
         self.train_loader = get_loader(train_dataset, args.batch_size)
         self.test_loader = get_loader(test_dataset, args.batch_size, train = False)
         self.optimizer = get_optimizer(args.optimizer, self.model, args.lr)
         self.loss_fn = get_loss_fn(args.loss_fn)
+        self.train_dataset_length = len(train_dataset)
 
     def set_local_model(self, global_model_state_dict):
         # Update the local model with the global model's state
@@ -61,3 +63,6 @@ class Client:
     def get_local_model(self):
         # Return the current state of the local model
         return self.model.state_dict()
+    
+    def get_train_data_length(self):
+        return self.train_dataset_length
