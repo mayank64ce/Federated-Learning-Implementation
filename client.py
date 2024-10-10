@@ -7,7 +7,7 @@ class Client:
         self.model = get_model(args)
         self.train_epochs = args.train_epochs
         self.train_loader = get_loader(train_dataset, args.batch_size)
-        self.test_loader = get_loader(test_dataset, args.batch_size)
+        self.test_loader = get_loader(test_dataset, args.batch_size, train = False)
         self.optimizer = get_optimizer(args.optimizer, self.model, args.lr)
         self.loss_fn = get_loss_fn(args.loss_fn)
 
