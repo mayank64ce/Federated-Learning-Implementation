@@ -4,6 +4,8 @@ from torchvision import datasets, transforms
 from models import model_factory
 
 def get_loader(dataset, batch_size, train=True):
+    if batch_size == -1:
+        batch_size = len(dataset)
     return DataLoader(dataset, batch_size=batch_size, shuffle=train)
 
 def get_optimizer(optimizer_name, model, lr):
@@ -126,7 +128,7 @@ def distribute_data_non_iid(dataset, args):
                          The length of the list equals the number of clients.
     """
     # Step 1: Sort the dataset by label
-    targets = torch.tensor(dataset.targets)
+    targets = dataset.targets.clone().detach()
     sorted_indices = targets.argsort().tolist()
 
     # Step 2: Divide the sorted data into shards

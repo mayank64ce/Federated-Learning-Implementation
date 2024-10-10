@@ -41,7 +41,7 @@ class FedRunner:
             num_sampled_clients = max(1, int(self.args.clients_each_round * len(self.client_list)))
             sampled_indices = random.sample(range(len(self.client_list)), num_sampled_clients)
 
-            print(f"Selected clients for round {round_num + 1}: {sampled_indices}")
+            print(f"Selected clients for round {round_num}: {sampled_indices}")
 
             client_list = [self.client_list[i] for i in sampled_indices]
             total_train_samples = sum([client.get_train_data_length() for client in client_list])
@@ -72,7 +72,8 @@ class FedRunner:
             self.evaluate_on_all_clents()
 
     def evaluate_on_all_clents(self):
-        for client in self.client_list:
+        for idx, client in enumerate(self.client_list):
+            print(f"Client {idx} is evaluating the model...")
             client.set_local_model(self.server.get_global_model())
             client.evaluate()
 
